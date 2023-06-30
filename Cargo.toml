@@ -1,0 +1,7 @@
+[package]
+name = "mem_scalpel"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+mem_scalpel_proc_macro = { version="0.1.0", path="mem_scalpel_proc_macro" }
