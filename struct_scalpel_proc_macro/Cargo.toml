@@ -1,5 +1,5 @@
 [package]
-name = "mem_scalpel_proc_macro"
+name = "struct_scalpel_proc_macro"
 version = "0.1.0"
 edition = "2021"
 

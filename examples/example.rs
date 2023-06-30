@@ -1,7 +1,8 @@
-use mem_scalpel::{Dissectible, print_info};
+#![allow(dead_code)]
+
+use struct_scalpel::{Dissectible, print_dissection_info};
 
 #[derive(Dissectible)]
-#[repr(C)]
 struct Foo<T> where T: Sized {
     o: Option<T>,
     b: bool,
@@ -12,25 +13,33 @@ struct Foo<T> where T: Sized {
 }
 
 #[derive(Dissectible)]
-struct Bar(bool, bool, bool, i32);
+enum Bar {
+    A,
+    B(usize),
+    C(bool, i16),
+    D {
+        x: bool,
+        y: u32
+    },
+    E(u32, u32, i32),
+}
 
 #[derive(Dissectible)]
-struct Biz(());
+enum Maybe<T> {
+    Is(T),
+    Isnt
+}
 
 #[derive(Dissectible)]
-struct Baz();
+#[repr(C)]
+union X {
+    a: bool,
+    b: f32,
+    c: (u16, u8),
+    d: u64
+}
 
-#[derive(Dissectible)]
-struct Buz;
 
 fn main() {
-    print_info::<Foo<&'static str>>();
-    println!("\n");
-    print_info::<Bar>();
-    println!("\n");
-    print_info::<Biz>();
-    println!("\n");
-    print_info::<Baz>();
-    println!("\n");
-    print_info::<Buz>();
+    print_dissection_info::<X>();
 }

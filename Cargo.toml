@@ -1,8 +1,8 @@
 [package]
-name = "mem_scalpel"
+name = "struct_scalpel"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 enable-ansi-support = "0.2.1"
-mem_scalpel_proc_macro = { version="0.1.0", path="mem_scalpel_proc_macro" }
+struct_scalpel_proc_macro = { version="0.1.0", path="struct_scalpel_proc_macro" }
