@@ -3,7 +3,7 @@ use proc_macro::TokenStream;
 mod dissect_struct;
 
 
-#[proc_macro_derive(Dissect)]
+#[proc_macro_derive(Dissectible)]
 pub fn dissect(stream: TokenStream) -> TokenStream {
     match venial::parse_declaration(proc_macro2::TokenStream::from(stream)) {
         Ok(venial::Declaration::Struct(s)) => dissect_struct::dissect_struct(s),

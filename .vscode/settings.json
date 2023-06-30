@@ -1,7 +1,6 @@
 {
     "rust-analyzer.linkedProjects": [
         ".\\mem_scalpel_proc_macro\\Cargo.toml",
-        ".\\mem_scalpel_trait\\Cargo.toml",
         ".\\Cargo.toml",
     ]
 }
