@@ -16,7 +16,7 @@ pub(crate) fn dissect_struct(s: Struct) -> TokenStream {
     let wheres = &s.where_clause;
     let attrs = s.attributes.iter()
     // filter out all doc comments
-    .filter(|a| a.path.iter().map(|t| t.to_string()).collect::<Vec<_>>().concat() != "doc")
+    .filter(|a| a.path.iter().map(|t| t.to_string()).collect::<Vec<_>>().concat() == "repr")
     .map(|a| a.to_token_stream().to_string());
     TokenStream::from(quote! {
         impl #generics ::struct_scalpel::Dissectible for #struct_name #generics #wheres {

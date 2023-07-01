@@ -10,7 +10,7 @@ pub(crate) fn dissect_enum(e: Enum) -> TokenStream {
     let wheres = &e.where_clause;
     let attrs = e.attributes.iter()
     // filter out all doc comments
-    .filter(|a| a.path.iter().map(|t| t.to_string()).collect::<Vec<_>>().concat() != "doc")
+    .filter(|a| a.path.iter().map(|t| t.to_string()).collect::<Vec<_>>().concat() == "repr")
     .map(|a| a.to_token_stream().to_string());
     let variants = e.variants.iter().map(|(v, _)| {
         let name = &v.name;
@@ -26,7 +26,7 @@ pub(crate) fn dissect_enum(e: Enum) -> TokenStream {
 
                 let idents = &t.fields.iter().enumerate().map(|(i, (_t, _))| Ident::new(&format!("v{i}"), Span::call_site())).collect::<Vec<_>>();
                 
-                let field_info = t.fields.iter().zip(idents).enumerate().map(|(i, ((_t, _), ident))| quote! {
+                let field_info = t.fields.iter().zip(idents).map(| ((_t, _), ident)| quote! {
                     ::struct_scalpel::FieldInfo::from_val_and_base(base, #ident)
                 }).collect::<Vec<_>>();
                 quote! {{

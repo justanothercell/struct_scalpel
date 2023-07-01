@@ -1,4 +1,11 @@
+#![feature(ptr_internals)]
+#![feature(allocator_api)]
+
+extern crate self as struct_scalpel;
+
 use std::sync::Once;
+
+pub mod impls;
 
 pub use struct_scalpel_proc_macro::Dissectible;
 
@@ -85,7 +92,7 @@ pub fn print_dissection_info<T: Dissectible>() {
                         }
                         print!("\x1b[48;2;100;100;100m.");
                     }
-                    print!("\x1b[0m");
+                    println!("\x1b[0m");
                 },
                 StructFields::Tuple(fields) => {
                     if fields.len() == 0 { println!("();"); return }
@@ -111,7 +118,7 @@ pub fn print_dissection_info<T: Dissectible>() {
                         }
                         print!("\x1b[48;2;100;100;100m.");
                     }
-                    print!("\x1b[0m");
+                    println!("\x1b[0m");
                 },
                 StructFields::Unit => println!(";"),
             }
@@ -186,15 +193,13 @@ pub fn print_dissection_info<T: Dissectible>() {
                             }
                             print!("\x1b[48;2;100;100;100m.");
                         }
-                        print!("\x1b[0m");
-                        println!()
+                        println!("\x1b[0m");
                     },
                     StructFields::Unit => {
                         for _ in 0..info.size {
                             print!("\x1b[48;2;100;100;100m.");
                         }
-                        print!("\x1b[0m");
-                        println!()
+                        println!("\x1b[0m");
                     },
                 }
             }

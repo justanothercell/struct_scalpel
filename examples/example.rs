@@ -1,6 +1,9 @@
+#![feature(allocator_api)]
 #![allow(dead_code)]
 
-use struct_scalpel::{Dissectible, print_dissection_info};
+use std::{alloc::Global, rc::Rc, sync::Arc};
+
+use struct_scalpel::{Dissectible, print_dissection_info, impls::std::dummy::{RawVec, RcBox}};
 
 #[derive(Dissectible)]
 struct Foo<T> where T: Sized {
@@ -39,7 +42,12 @@ union X {
     d: u64
 }
 
+#[derive(Dissectible)]
+
+struct G<A, B, C>(A, B, C);
 
 fn main() {
-    print_dissection_info::<X>();
+    print_dissection_info::<Arc<&str>>();
+    println!();
+    print_dissection_info::<Arc<str>>();
 }

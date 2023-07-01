@@ -9,7 +9,7 @@ pub(crate) fn dissect_union(u: Union) -> TokenStream {
     let wheres = &u.where_clause;
     let attrs = u.attributes.iter()
     // filter out all doc comments
-    .filter(|a| a.path.iter().map(|t| t.to_string()).collect::<Vec<_>>().concat() != "doc")
+    .filter(|a| a.path.iter().map(|t| t.to_string()).collect::<Vec<_>>().concat() == "repr")
     .map(|a| a.to_token_stream().to_string());
 
     let fields = u.fields.fields.iter().map(|(f, _)| {

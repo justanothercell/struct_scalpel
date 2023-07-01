@@ -19,6 +19,23 @@ fn main() {
     print_dissection_info::<Person>();
 }
 ```
+With `dissect_std` you can even disect some std items, with only a few type path deviations for private types.
+
+- String
+- Option<T>
+- Result<T, E>
+- Box<T, A: Allocator>
+- Rc<T>
+- cell
+    - UnsafeCell<T>
+    - Cell<T>
+    - RefCell<T>
+    - OnceCell<T>
+- sync
+    - OnceLock<T>
+
+Disclaimer: This may not work in all cases, such as where some fields are unsized or dependant on a sys (os) implementation
+
 ![](img/person.png)
 
 This also works with generics and different layout strategies
