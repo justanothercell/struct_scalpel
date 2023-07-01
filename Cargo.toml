@@ -2,6 +2,13 @@
 name = "struct_scalpel"
 version = "0.1.0"
 edition = "2021"
+authors = ["DragonFighter603"]
+repository = "https://github.com/DragonFighter603/struct_scalpel"
+description = "memory layout analysis tool for structs, enums, unions, tuples, and references"
+license-file = "LICENSE"
+keywords = ["type", "layout", "memory", "struct", "enum"]
+categories = ["development-tools", "development-tools::debugging", "memory-management"]
+readme = ".github/README.md"
 
 [features]
 default = ["dissect_std"]
@@ -9,4 +16,4 @@ dissect_std = []
 
 [dependencies]
 enable-ansi-support = "0.2.1"
-struct_scalpel_proc_macro = { version="0.1.0", path="struct_scalpel_proc_macro" }
+struct_scalpel_proc_macro = { version="0.1.0", path="./struct_scalpel_proc_macro" }
