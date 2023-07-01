@@ -1,9 +1,9 @@
 #![feature(allocator_api)]
 #![allow(dead_code)]
 
-use std::{alloc::Global, rc::Rc, sync::Arc, fmt::Display};
 
-use struct_scalpel::{Dissectible, print_dissection_info, impls::std::dummy::{RawVec, RcBox}};
+
+use struct_scalpel::{Dissectible, print_dissection_info};
 
 #[derive(Dissectible)]
 struct Foo<T> where T: Sized {

@@ -78,13 +78,13 @@ pub fn print_dissection_info<T: Dissectible>() {
             print!("struct \x1b[1;31m{}\x1b[0m ", info.name);
             match fields {
                 StructFields::Named(fields) => {
-                    if fields.len() == 0 { println!("{{ }}"); return }
+                    if fields.is_empty() { println!("{{ }}"); return }
                     println!("{{");
                     let n: u8 = 255 / fields.len() as u8;
                     for (f, (fname, field)) in fields.iter().enumerate() {
                         let (r, g, b) = hsv_to_rgb(f as u8 * n, 200, 255);
                         print!("    ");
-                        print_named_field(r, g, b, *fname, field);
+                        print_named_field(r, g, b, fname, field);
                         println!();
                     }
                     println!("}}");
@@ -102,7 +102,7 @@ pub fn print_dissection_info<T: Dissectible>() {
                     println!("\x1b[0m");
                 },
                 StructFields::Tuple(fields) => {
-                    if fields.len() == 0 { println!("();"); return }
+                    if fields.is_empty() { println!("();"); return }
                     if fields.len() == 1 { print!("("); }
                     else { println!("("); }
                     let n: u8 = 255 / fields.len() as u8;
@@ -131,25 +131,25 @@ pub fn print_dissection_info<T: Dissectible>() {
         },
         Structure::Enum(variants) => {
             print!("enum \x1b[1;31m{}\x1b[0m {{", info.name);
-            if variants.len() == 0 { println!(" }}"); return }
+            if variants.is_empty() { println!(" }}"); return }
             println!();
             for (name, fields) in &variants {
                 print!("    {name}");
                 match fields {
                     StructFields::Named(fields) => {
-                        if fields.len() == 0 { println!(" {{ }},"); return }
+                        if fields.is_empty() { println!(" {{ }},"); return }
                         println!(" {{");
                         let n: u8 = 255 / fields.len() as u8;
                         for (f, (ident, field)) in fields.iter().enumerate() {
                             let (r, g, b) = hsv_to_rgb(f as u8 * n, 200, 255);
                             print!("        ");
-                            print_named_field(r, g, b, *ident, field);
+                            print_named_field(r, g, b, ident, field);
                             println!();
                         }
                         println!("    }},");
                     },
                     StructFields::Tuple(fields) => {
-                        if fields.len() == 0 { println!("(),"); return }
+                        if fields.is_empty() { println!("(),"); return }
                         if fields.len() == 1 { print!("("); }
                         else { println!("("); }
                         let n: u8 = 255 / fields.len() as u8;
@@ -170,7 +170,7 @@ pub fn print_dissection_info<T: Dissectible>() {
             for (_, fields) in &variants {
                 match fields {
                     StructFields::Named(fields) => {
-                        if fields.len() == 0 { println!(""); return }
+                        if fields.is_empty() { println!(); return }
                         let n: u8 = 255 / fields.len() as u8;
                         'outer: for i in 0..info.size {
                             for (f,  (_, field)) in fields.iter().enumerate() {
@@ -186,7 +186,7 @@ pub fn print_dissection_info<T: Dissectible>() {
                         println!()
                     },
                     StructFields::Tuple(fields) => {
-                        if fields.len() == 0 { println!(""); return }
+                        if fields.is_empty() { println!(); return }
                         let n: u8 = 255 / fields.len() as u8;
                         'outer: for i in 0..info.size {
                             for (f,  field) in fields.iter().enumerate() {
@@ -211,13 +211,13 @@ pub fn print_dissection_info<T: Dissectible>() {
         },
         Structure::Union(fields) => {
             print!("union \x1b[1;31m{}\x1b[0m ", info.name);
-            if fields.len() == 0 { println!("{{ }}"); return }
+            if fields.is_empty() { println!("{{ }}"); return }
             println!("{{");
             let n: u8 = 255 / fields.len() as u8;
             for (f, (fname, field)) in fields.iter().enumerate() {
                 let (r, g, b) = hsv_to_rgb(f as u8 * n, 200, 255);
                 print!("    ");
-                print_named_field(r, g, b, *fname, field);
+                print_named_field(r, g, b, fname, field);
                 println!();
             }
             println!("}}");
@@ -256,7 +256,7 @@ pub fn print_dissection_info<T: Dissectible>() {
             println!("\x1b[0m");
         },
         Structure::Tuple(fields) => {
-            if fields.len() == 0 { println!("()"); return }
+            if fields.is_empty() { println!("()"); return }
             if fields.len() == 1 { print!("("); }
             else { println!("("); }
             let n: u8 = 255 / fields.len() as u8;
