@@ -1,5 +1,5 @@
 # struct_scalpel
-Memory layout analysis tool for rust structs, enum and unions, prints to console using ansi escape codes.
+Memory layout analysis tool for rust structs, enums, unions, tuples, and references, prints to console using ansi escape codes.
 
 Simply derive `Dissectible` and call `print_dissection_info` to get a well formatted overview.
 
@@ -20,7 +20,6 @@ fn main() {
 }
 ```
 With `dissect_std` you can even disect some std items, with only a few type path deviations for private types.
-
 - String
 - Option<T>
 - Result<T, E>
