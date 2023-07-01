@@ -40,7 +40,7 @@ pub(crate) fn dissect_struct(s: Struct) -> TokenStream {
 
 #[allow(unused_variables)]
 fn dissect_named_struct(n: &NamedStructFields) -> proc_macro2::TokenStream {
-    let field_info = n.fields.into_iter().map(|(f, _)| {
+    let field_info = n.fields.iter().map(|(f, _)| {
         let fname = f.name.to_string();
         let f = &f.name;
         quote! {
@@ -58,7 +58,7 @@ fn dissect_named_struct(n: &NamedStructFields) -> proc_macro2::TokenStream {
 
 #[allow(unused_variables)]
 fn dissect_tuple_struct(t: &TupleStructFields) -> proc_macro2::TokenStream {
-    let field_info = t.fields.into_iter().enumerate().map(|(i, (f, _))| {
+    let field_info = t.fields.iter().enumerate().map(|(i, (f, _))| {
         let ty = &f.ty;
         let index = Index::from(i);
         quote! {

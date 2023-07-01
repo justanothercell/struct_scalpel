@@ -2,6 +2,10 @@
 name = "struct_scalpel_proc_macro"
 version = "0.1.0"
 edition = "2021"
+repository = "https://github.com/DragonFighter603/struct_scalpel"
+authors = ["DragonFighter603"]
+description = "helper crate for struct_scalpel"
+license-file = "../LICENSE"
 
 [lib]
 proc-macro = true
