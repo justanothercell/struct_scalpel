@@ -53,7 +53,7 @@ struct G<A, B, C>(A, B, C);
 fn main() {
     print_dissection_info::<I>();
     print_dissection_info::<G<u32, u16, u128>>();
-    print_dissection_info::<()>();
+    print_dissection_info::<((),)>();
     print_dissection_info::<(Option<u32>,)>();
     print_dissection_info::<(((u32,),),)>();
     print_dissection_info::<(u16, u8)>();
