@@ -30,6 +30,7 @@ pub(crate) fn dissect_struct(s: Struct) -> TokenStream {
                     align: ::std::mem::align_of::<#struct_name #generics>(),
                     structure: ::struct_scalpel::Structure::Struct(#fields)
                 };
+                #[allow(clippy::forget_non_drop)]
                 ::std::mem::forget(dummy);
                 layout
             }

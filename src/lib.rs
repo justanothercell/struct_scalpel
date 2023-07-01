@@ -317,6 +317,7 @@ fn hsv_to_rgb(h: u8, s: u8, v: u8) -> (u8, u8, u8) {
     }  
 }
 
+#[allow(clippy::missing_safety_doc)]
 pub unsafe fn dummy_nonzero<T>() -> T {
     let mut dummy = std::mem::MaybeUninit::zeroed().assume_init();
     let ptr = &mut dummy as *mut T as *mut u8;

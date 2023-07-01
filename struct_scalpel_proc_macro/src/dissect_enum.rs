@@ -52,6 +52,7 @@ pub(crate) fn dissect_enum(e: Enum) -> TokenStream {
                     let field = if let #enum_name :: #generics :: #name { #(#idents,)* } = &dummy {
                         (#name_str, ::struct_scalpel::StructFields::Named(vec![#(#field_info,)*]))
                     } else { unreachable!() };
+                    #[allow(clippy::forget_non_drop)]
                     ::std::mem::forget(dummy);
                     field
                 }}
