@@ -1,12 +1,12 @@
 # struct_scalpel
 [![Github](https://img.shields.io/badge/github-DragonFighter603/struct_scalpel?style=flat-square&labelColor=555555&logo=github)](https://github.com/DragonFighter603/struct_scalpel)
 [![crates.io](https://img.shields.io/crates/v/struct_scalpel?style=flat-square&color=fc8d62&logo=rust)](https://crates.io/crates/struct_scalpel)
-<!-- 
-[![docs.rs](https://img.shields.io/badge/docs.rs-struct_scalpel-66c2a5?style=flat-square&labelColor=555555&logo=docs.rs)](https://docs.rs/struct_scalpel)
--->
 [![License](https://img.shields.io/github/license/DragonFIghter603/struct_scalpel?style=flat-square)](https://github.com/DragonFighter603/struct_scalpel/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/DragonFighter603/struct_scalpel?style=flat-square)](https://github.com/DragonFighter603/struct_scalpel/stargazers)
 ![Lines of code](https://raster.shields.io/tokei/lines/github/DragonFighter603/struct_scalpel?style=flat-square)
+<!-- 
+[![docs.rs](https://img.shields.io/badge/docs.rs-struct_scalpel-66c2a5?style=flat-square&labelColor=555555&logo=docs.rs)](https://docs.rs/struct_scalpel)
+-->
 ---
 Memory layout analysis tool for rust structs, enums, unions, tuples, and references, prints to console using ansi escape codes.
 
