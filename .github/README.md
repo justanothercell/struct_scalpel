@@ -19,6 +19,9 @@ fn main() {
     print_dissection_info::<Person>();
 }
 ```
+
+![](img/person.png)
+
 With `dissect_std` you can even disect some std items, with only a few type path deviations for private types.
 - String
 - Option<T>
@@ -34,8 +37,6 @@ With `dissect_std` you can even disect some std items, with only a few type path
     - OnceLock<T>
 
 Disclaimer: This may not work in all cases, such as where some fields are unsized or dependant on a sys (os) implementation
-
-![](img/person.png)
 
 This also works with generics and different layout strategies
 
