@@ -1,7 +1,7 @@
 #![feature(allocator_api)]
 #![allow(dead_code)]
 
-use std::{alloc::Global, rc::Rc, sync::Arc};
+use std::{alloc::Global, rc::Rc, sync::Arc, fmt::Display};
 
 use struct_scalpel::{Dissectible, print_dissection_info, impls::std::dummy::{RawVec, RcBox}};
 
@@ -44,10 +44,19 @@ union X {
 
 #[derive(Dissectible)]
 
+struct I(bool);
+
+#[derive(Dissectible)]
+
 struct G<A, B, C>(A, B, C);
 
 fn main() {
-    print_dissection_info::<Arc<&str>>();
-    println!();
-    print_dissection_info::<Arc<str>>();
+    print_dissection_info::<I>();
+    print_dissection_info::<G<u32, u16, u128>>();
+    print_dissection_info::<()>();
+    print_dissection_info::<(Option<u32>,)>();
+    print_dissection_info::<(((u32,),),)>();
+    print_dissection_info::<(u16, u8)>();
+    print_dissection_info::<(u8, u8, u8, u8)>();
+    print_dissection_info::<(&str, bool)>();
 }

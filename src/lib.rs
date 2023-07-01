@@ -1,5 +1,7 @@
 #![feature(ptr_internals)]
 #![feature(allocator_api)]
+#![feature(auto_traits)]
+#![feature(negative_impls)]
 
 extern crate self as struct_scalpel;
 
@@ -8,6 +10,10 @@ use std::sync::Once;
 pub mod impls;
 
 pub use struct_scalpel_proc_macro::Dissectible;
+
+pub auto trait Unsized {}
+
+impl<T> !Unsized for T where T: Sized {}
 
 pub struct FieldInfo {
     pub type_name: &'static str,
@@ -36,7 +42,9 @@ pub enum StructFields {
 pub enum Structure {
     Struct(StructFields),
     Enum(Vec<(&'static str, StructFields)>),
-    Union(Vec<(&'static str, FieldInfo)>)
+    Union(Vec<(&'static str, FieldInfo)>),
+    Tuple(Vec<FieldInfo>),
+    Reference(bool)
 }
 
 pub struct LayoutInfo {
@@ -81,7 +89,6 @@ pub fn print_dissection_info<T: Dissectible>() {
                     }
                     println!("}}");
                     if info.size == 0 { return }
-                    println!();
                     'outer: for i in 0..info.size {
                         for (f, (_fname, field)) in fields.iter().enumerate() {
                             if i >= field.offset && i < field.offset + field.size {
@@ -107,7 +114,6 @@ pub fn print_dissection_info<T: Dissectible>() {
                     }
                     println!(");");
                     if info.size == 0 { return }
-                    println!();
                     'outer: for i in 0..info.size {
                         for (f,  field) in fields.iter().enumerate() {
                             if i >= field.offset && i < field.offset + field.size {
@@ -161,7 +167,6 @@ pub fn print_dissection_info<T: Dissectible>() {
             }
             println!("}}");
             if info.size == 0 { return }
-            println!();
             for (_, fields) in &variants {
                 match fields {
                     StructFields::Named(fields) => {
@@ -217,7 +222,6 @@ pub fn print_dissection_info<T: Dissectible>() {
             }
             println!("}}");
             if info.size == 0 { return }
-            println!();
             for (f, (_fname, field)) in fields.iter().enumerate() {
                 for i in 0..info.size {
                     if i < field.size {
@@ -229,6 +233,52 @@ pub fn print_dissection_info<T: Dissectible>() {
                 }
                 println!("\x1b[0m");
             }
+        },
+        Structure::Reference(mutable) => {
+            if mutable {
+                print!("\x1b[1;31m&mut\x1b[0m {}", info.name)
+            } else {
+                print!("\x1b[1;31m&\x1b[0m{}", info.name)
+            }
+            if info.size == 8 {
+                println!()
+            } else {
+                println!(" \x1b[48;2;100;100;160m<+unsized data>\x1b[0m");
+            }
+            for i in 0..info.size {
+                if i < 8 {
+                    let (r, g, b) = hsv_to_rgb(0, 200, 255);
+                    print!("\x1b[48;2;{r};{g};{b}m.");
+                } else {
+                    print!("\x1b[48;2;100;100;160m.");
+                }
+            }
+            println!("\x1b[0m");
+        },
+        Structure::Tuple(fields) => {
+            if fields.len() == 0 { println!("()"); return }
+            if fields.len() == 1 { print!("("); }
+            else { println!("("); }
+            let n: u8 = 255 / fields.len() as u8;
+            for (f,  field) in fields.iter().enumerate() {
+                let (r, g, b) = hsv_to_rgb(f as u8 * n, 200, 255);
+                if fields.len() > 1 { print!("    "); }
+                print_field(r, g, b, field);
+                if fields.len() > 1 { println!(); }
+            }
+            println!(")");
+            if info.size == 0 { return }
+            'outer: for i in 0..info.size {
+                for (f,  field) in fields.iter().enumerate() {
+                    if i >= field.offset && i < field.offset + field.size {
+                        let (r, g, b) = hsv_to_rgb(f as u8 * n, 200, 255);
+                        print!("\x1b[48;2;{r};{g};{b}m.");
+                        continue 'outer;
+                    }
+                }
+                print!("\x1b[48;2;100;100;100m.");
+            }
+            println!("\x1b[0m");
         },
     }
 }

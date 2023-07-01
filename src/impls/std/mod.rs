@@ -5,6 +5,7 @@ pub mod sync;
 
 use dummy::*;
 
+use std::cell::Cell;
 use std::marker::PhantomData;
 use std::ptr::NonNull;
 use std::rc::Rc;
@@ -42,14 +43,22 @@ impl_mirror_mock!(with <T, A>: MockVec<T, A> => Vec<T, A> where A: Allocator);
 
 #[derive(Dissectible)]
 struct MockBox<T, A>(Unique<T>, A) where T: ?Sized;
-impl_mirror_mock!(with <T, A>: MockBox<T, A> => Box<T, A> where A: Allocator);
+impl_mirror_mock!(with <T, A>: MockBox<T, A> => Box<T, A> where T: ?Sized, A: Allocator);
+
+#[repr(C)]
+/// This is a dummy copy of the internal type RcBox<T>, used as a field in Rc<T>, which is shadowed by the public dummy::RcBox<T> and can be unsized
+struct RcBox<T> where T: ?Sized {
+    strong: Cell<usize>,
+    weak: Cell<usize>,
+    value: T,
+}
 
 #[derive(Dissectible)]
-struct MockRc<T> {
+struct MockRc<T> where T: ?Sized{
     ptr: NonNull<RcBox<T>>,
     phantom: PhantomData<RcBox<T>>,
 }
-impl_mirror_mock!(with <T>: MockRc<T> => Rc<T>);
+impl_mirror_mock!(with <T>: MockRc<T> => Rc<T> where T: ?Sized);
 
 pub mod dummy {
     use std::{ptr::Unique, alloc::Allocator, cell::Cell};
