@@ -27,7 +27,7 @@ macro_rules! impl_mirror_mock {
     };
     ($mock: ty => $real: ty) => {
         impl Dissectible for $real {
-            fn field_info() -> crate::LayoutInfo {
+            fn field_info() -> $crate::LayoutInfo {
                 let mut info = <$mock as Dissectible>::field_info();
                 info.name = ::std::any::type_name::<$real>();
                 info
