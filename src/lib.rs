@@ -317,7 +317,16 @@ fn hsv_to_rgb(h: u8, s: u8, v: u8) -> (u8, u8, u8) {
     }  
 }
 
-#[allow(clippy::missing_safety_doc)]
+/// Safety:
+/// The purpose of this function is to create a nonzero dummy value.
+/// (nonzero to satisfy Option<T> where T != 0 or similar null pointer optimizations)
+/// Obviously, values created by this function are most 
+/// likely not usable and will cause crashes if attempted to be used.
+/// Zira will complain.
+/// However, values created here are never intended to behave at all. 
+/// It is required that they are not dropped, instead use `std::mem::forget`,
+/// since destructors/dropping also run code.
+/// The only purpose of these dummys is to provide pointer offsets for the macro.
 pub unsafe fn dummy_nonzero<T>() -> T {
     let mut dummy = std::mem::MaybeUninit::zeroed();
     let ptr = &mut dummy as *mut _ as *mut u8;
